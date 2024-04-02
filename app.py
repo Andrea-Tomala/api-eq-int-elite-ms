@@ -1,4 +1,3 @@
-import ssl
 from flask import Flask, request, jsonify
 from flask_cors import CORS
 import firebase_admin
@@ -10,12 +9,11 @@ from pydantic import BaseModel, Field
 #Instancia swagger
 info = Info(title="api-eqintelite-ms", version="1.0.0")
 app = OpenAPI(__name__, info=info)
-#CORS(app)
-CORS(app, resources={r"/*": {"origins": "*"}})
+CORS(app)
 
 
 # Inicializar Firebase Admin SDK
-cred = credentials.Certificate("credentials/equipo-interno-elite-firebase-adminsdk-kxpzn-3f9b63f3f6.json")  # Cambia por la ruta de tu archivo JSON de credenciales
+cred = credentials.Certificate("equipo-interno-elite-firebase-adminsdk-kxpzn-3f9b63f3f6.json")  # Cambia por la ruta de tu archivo JSON de credenciales
 firebase_admin.initialize_app(cred)
 
 
@@ -115,3 +113,4 @@ def login(body:SessionBody):
 
 if __name__ == '__main__':
     app.run(debug=True)
+
