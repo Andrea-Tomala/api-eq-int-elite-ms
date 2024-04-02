@@ -12,7 +12,7 @@ CORS(app)
 
 
 # Inicializar Firebase Admin SDK
-cred = credentials.Certificate("files/equipo-interno-elite-firebase-adminsdk-kxpzn-3f9b63f3f6.json")  # Cambia por la ruta de tu archivo JSON de credenciales
+cred = credentials.Certificate("equipo-interno-elite-firebase-adminsdk-kxpzn-3f9b63f3f6.json")  # Cambia por la ruta de tu archivo JSON de credenciales
 firebase_admin.initialize_app(cred)
 
 
