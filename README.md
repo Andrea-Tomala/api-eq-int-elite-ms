@@ -1,6 +1,8 @@
 # api-eq-int-elite-ms
 Código Fuente backend-middleware creación los usuarios con Firebase para prueba técnica
 
+Importante tener instalado python (se instaló Python 3.11 desde Microsoft Store de la pc
+)
 Configuración del Entorno
 
 Para configurar el entorno de desarrollo, sigue estos pasos:
