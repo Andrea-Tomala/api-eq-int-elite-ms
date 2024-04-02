@@ -1,3 +1,4 @@
+import ssl
 from flask import Flask, request, jsonify
 from flask_cors import CORS
 import firebase_admin
@@ -9,13 +10,13 @@ from pydantic import BaseModel, Field
 #Instancia swagger
 info = Info(title="api-eqintelite-ms", version="1.0.0")
 app = OpenAPI(__name__, info=info)
-CORS(app)
+#CORS(app)
+CORS(app, resources={r"/*": {"origins": "*"}})
 
 
 # Inicializar Firebase Admin SDK
-cred = credentials.Certificate("equipo-interno-elite-firebase-adminsdk-kxpzn-3f9b63f3f6.json")  # Cambia por la ruta de tu archivo JSON de credenciales
+cred = credentials.Certificate("credentials/equipo-interno-elite-firebase-adminsdk-kxpzn-3f9b63f3f6.json")  # Cambia por la ruta de tu archivo JSON de credenciales
 firebase_admin.initialize_app(cred)
-
 
 
 class RegisterBody(BaseModel):
@@ -96,35 +97,20 @@ session_tag = Tag(name="Inicio de sesión de usuarios", description="Acceso de u
             200: SessionResponse,
             422: None       
          })
-def login(body: SessionBody):
+def login(body:SessionBody):
     email = body.email
     contrasena = body.contrasena
 
     try:
-        # Verificar que se proporcionen datos válidos
-        if not email or not contrasena:
-            return jsonify({'code': 400, 'message': 'Se requieren correo electrónico y contraseña para iniciar sesión'}), 400
-
-        # Verificar si el correo electrónico está registrado en Firebase Authentication
-        try:
-            usuario = auth.get_user_by_email(email)
-        except auth.UserNotFoundError:
-            return jsonify({'code': 400, 'message': 'El correo electrónico no está registrado'}), 400
+        # Iniciar sesión en Firebase Authentication
+        usuario = auth.get_user_by_email(email)
         
-        # Autenticar al usuario con Firebase Authentication
-        try:
-            auth.sign_in_with_email_and_password(email, contrasena)
-            return jsonify({'mensaje': 'Inicio de sesión exitoso.'}), 200
-        except Exception as e:
-            # Capturar cualquier excepción genérica y manejarla
-            error_message = str(e)
-            if 'INVALID_PASSWORD' in error_message:
-                return jsonify({'code': 400, 'message': 'Contraseña incorrecta'}), 400
-            else:
-                return jsonify({'mensaje': 'Error al iniciar sesión: ' + error_message}), 400
+        # Aquí puedes implementar la lógica para verificar si el correo electrónico ha sido confirmado
+        # Antes de permitir el inicio de sesión
 
+        return jsonify({'mensaje': 'Inicio de sesión exitoso.'}), 200
     except Exception as e:
-        return jsonify({'mensaje': 'Error al iniciar sesión: ' + str(e)}), 500
+        return jsonify({'mensaje': 'Error al iniciar sesión: ' + str(e)}), 400
 
 
 if __name__ == '__main__':
