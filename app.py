@@ -1,11 +1,7 @@
-from flask import Flask, request, jsonify
+from flask import jsonify
 from flask_cors import CORS
-import firebase_admin
 from firebase_admin import credentials, auth
-import smtplib
-from email.mime.text import MIMEText
-from email.mime.multipart import MIMEMultipart
-from flask_openapi3 import OpenAPI, Info, Tag, Parameter, RequestBody
+from flask_openapi3 import OpenAPI, Info, Tag
 from pydantic import BaseModel, Field
 
 
@@ -16,7 +12,7 @@ CORS(app)
 
 
 # Inicializar Firebase Admin SDK
-cred = credentials.Certificate("credentials/equipo-interno-elite-firebase-adminsdk-kxpzn-3f9b63f3f6.json")  # Cambia por la ruta de tu archivo JSON de credenciales
+cred = credentials.Certificate("files/equipo-interno-elite-firebase-adminsdk-kxpzn-3f9b63f3f6.json")  # Cambia por la ruta de tu archivo JSON de credenciales
 firebase_admin.initialize_app(cred)
 
 
